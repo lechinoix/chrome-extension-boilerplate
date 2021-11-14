@@ -1,0 +1,50 @@
+{
+  "name": "My extension",
+  "version": "1.0.0",
+  "description": "An extension empty (for now)",
+  "author": "lechinoix",
+  "manifest_version": 2,
+  "icons": {
+    "16": "icons/16-white.png",
+    "48": "icons/48-white.png",
+    "128": "icons/128-white.png"
+  },
+  "permissions": [
+    "<all_urls>",
+    "activeTab",
+    "tabs",
+    "cookies",
+    "background",
+    "contextMenus",
+    "unlimitedStorage",
+    "storage",
+    "notifications",
+    "identity",
+    "identity.email"
+  ],
+  "browser_action": {
+    "default_title": "Extend Chrome!",
+    "default_popup": "pages/popup.html"
+  },
+  "background": {
+    "persistent": false,
+    "page": "pages/background.html"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "js/vendor.js",
+        "js/content.js"
+      ],
+      "run_at": "document_end",
+      "matches": [
+        "<all_urls>"
+      ],
+      "all_frames": true
+    }
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "web_accessible_resources": [
+    "js/content.js"
+  ]
+}
