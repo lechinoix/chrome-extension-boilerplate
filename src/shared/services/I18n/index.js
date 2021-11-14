@@ -1,4 +1,4 @@
-import VueI18n from 'vue-i18n'
+import { createI18n } from 'vue-i18n'
 import messages from './messages'
 
 export const AVAILABLE_LANGUAGES = ['fr', 'en']
@@ -26,7 +26,7 @@ class I18n {
   }
 
   createVuei18n = () => (
-    new VueI18n({
+    createI18n({
       locale: this.locale,
       messages: this.getMessages(this.pageName)
     })

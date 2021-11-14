@@ -6,7 +6,7 @@ export default {
       title: 'Hello World!'
     },
     fr: {
-      title: 'Bonjour le monde !',
+      title: 'Bonjour le monde !'
     }
   },
   [PAGE_NAMES.POPUP]: {
@@ -14,7 +14,7 @@ export default {
       title: 'Hello World!'
     },
     fr: {
-      title: 'Bonjour le monde !',
+      title: 'Bonjour le monde !'
     }
   },
   [PAGE_NAMES.MY_TAB]: {
@@ -22,7 +22,7 @@ export default {
       title: 'Hello World!'
     },
     fr: {
-      title: 'Bonjour le monde !',
+      title: 'Bonjour le monde !'
     }
   }
 }

@@ -1,9 +1,10 @@
 require('dotenv').config()
 
 const path = require('path')
-const webpack = require('webpack')
-const { cssLoaders, htmlPage } = require('./tools')
+const { htmlPage } = require('./tools')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const { VueLoaderPlugin } = require('vue-loader')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 let resolve = dir => path.join(__dirname, '..', 'src', dir)
 module.exports = {
@@ -27,30 +28,16 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: [path.join(__dirname, '..', 'src'), path.join(__dirname, '..', 'test')],
-        options: {
-          formatter: require('eslint-friendly-formatter')
-        }
+        test: /\.vue$/,
+        loader: 'vue-loader'
       },
       {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          extractCSS: true,
-          loaders: {
-            ...cssLoaders(),
-            js: { loader: 'babel-loader' }
-          },
-          transformToRequire: {
-            video: 'src',
-            source: 'src',
-            img: 'src',
-            image: 'xlink:href'
-          }
-        }
+        test: /\.scss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
       },
       {
         test: /\.js$/,
@@ -84,28 +71,18 @@ module.exports = {
     ]
   },
   plugins: [
+    new ESLintPlugin({}),
+    new VueLoaderPlugin(),
     htmlPage('My Tab', 'myTab', ['vendor', 'myTab']),
     htmlPage('background', 'background', ['vendor', 'background']),
     htmlPage('popup', 'popup', ['vendor', 'popup']),
     new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'static') }]),
-    new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'src', 'manifest.json') }]),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-      }
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: function (module) {
-        return (
-          module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf(
-            path.join(__dirname, '../node_modules')
-          ) === 0
-        )
-      }
-    })
+    new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'src', 'manifest.json') }])
   ],
   performance: { hints: false },
+  optimization: {
+    splitChunks: {
+      name: 'vendor'
+    }
+  }
 }
