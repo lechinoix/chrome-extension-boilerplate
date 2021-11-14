@@ -13,10 +13,6 @@ ContentScriptInitiator.insertRootElement(rootElementId)
 ContentScriptInitiator.insertFontInPage('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons')
 
 /* eslint-disable no-new */
-const app = createApp({
-  el: `#${rootElementId}`,
-  i18n,
-  render: h => h(Component)
-})
-
-app.use(i18n)
+createApp(Component)
+  .use(i18n)
+  .mount(`#${rootElementId}`)

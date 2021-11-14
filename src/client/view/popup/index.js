@@ -7,10 +7,6 @@ const { createVuei18n } = new I18n(PAGE_NAMES.POPUP)
 const i18n = createVuei18n()
 
 /* eslint-disable no-new */
-const app = createApp({
-  el: '#root',
-  i18n,
-  render: h => h(Popup)
-})
-
-app.use(i18n)
+createApp(Popup)
+  .use(i18n)
+  .mount('#root')
